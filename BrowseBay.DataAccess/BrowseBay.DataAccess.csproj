@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BrowseBay.Models\BrowseBay.Models.csproj" />
+  </ItemGroup>
+
 </Project>
