@@ -22,7 +22,7 @@
                 <div class="appear-on-hover position-absolute top-0 end-0 p-1" style="height: 100%;width: 100%;">
                     @if ((await authService.AuthorizeAsync(User, nameof(Policy.SellerRights))).Succeeded)
                     {
-                        <form method="post" asp-controller="account" asp-action="delete" asp-route-id="@p.Id"
+                        <form method="post" asp-controller="product" asp-action="delete" asp-route-id="@p.Id"
                                 onsubmit="return deleteProduct()" class="d-flex justify-content-end">
                             <a class="badge rounded-pill border-0 p-2 me-1" style="background-color: buttonface" title="Edit product"
                                 asp-controller="product" asp-action="edit" asp-route-id="@p.Id">
