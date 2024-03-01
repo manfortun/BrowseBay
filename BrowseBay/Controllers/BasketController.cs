@@ -50,16 +50,69 @@ namespace BrowseBay.Controllers
         }
 
         [HttpGet]
-        public IActionResult ToggleEditMode(bool mode, bool save)
+        public IActionResult ToggleEditMode(bool onEditMode, bool save)
         {
-            _basketService.OnEditMode = mode;
+            _basketService.OnEditMode = onEditMode;
 
             if (save)
             {
-                // perform save logic here
+                if (!onEditMode && !SaveBasket())
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return RedirectToAction("getcarts");
             }
 
             return PartialView("BasketSummaryPartialView", _basketService);
+        }
+
+        [HttpGet]
+        public IActionResult ChangeCount(int id, int count)
+        {
+            _basketService.ChangePurchaseCount(id, count);
+
+            return PartialView("BasketSummaryPartialView", _basketService);
+        }
+
+        private bool SaveBasket()
+        {
+            string? userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return false;
+            }
+
+            return MergeDbBasketWithLocalBasket(userId);
+        }
+
+        private bool MergeDbBasketWithLocalBasket(string userId)
+        {
+            IEnumerable<Purchase> oldBasket = _unitOfWork.PurchaseManager.Get(c => c.OwnerId == userId);
+
+            foreach (var purchase in oldBasket)
+            {
+                _unitOfWork.PurchaseManager.Delete(purchase);
+            }
+
+            return AddLocalBasketToDb();
+        }
+
+        private bool AddLocalBasketToDb()
+        {
+            IEnumerable<Purchase> newPurchase = _mapper.Map<IEnumerable<Purchase>>(_basketService.GetBasket());
+
+            foreach (var purchase in newPurchase)
+            {
+                purchase.Product = default!;
+                _unitOfWork.PurchaseManager.Insert(purchase);
+            }
+
+            _unitOfWork.Save();
+            return true;
         }
     }
 }

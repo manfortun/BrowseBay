@@ -17,31 +17,12 @@ public class BasketService
         return _purchases;
     }
 
-    public virtual void AddToBasket(ProductOnPurchaseDto product, string userId)
+    public virtual void ChangePurchaseCount(int cartId, int count)
     {
-        PurchaseReadDto? purchase = _purchases.FirstOrDefault(p => p.ProductId == product.Id);
+        PurchaseReadDto? purchase = _purchases.Find(c => c.Id == cartId);
         if (purchase is PurchaseReadDto purchaseDto)
         {
-            purchaseDto.Quantity++;
-        }
-        else
-        {
-            _purchases.Add(new PurchaseReadDto
-            {
-                ProductId = product.Id,
-                Product = product,
-                OwnerId = userId,
-                Quantity = 1
-            });
-        }
-    }
-
-    public virtual void TakeFromBasket(int productId)
-    {
-        PurchaseReadDto? purchase = _purchases.FirstOrDefault(p => p.ProductId == productId);
-        if (purchase is PurchaseReadDto purchaseDto)
-        {
-            purchaseDto.Quantity--;
+            purchaseDto.Quantity = count;
 
             if (purchaseDto.Quantity <= 0)
             {

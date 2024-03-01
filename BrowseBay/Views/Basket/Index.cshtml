@@ -28,7 +28,7 @@
 </div>
 @section Scripts {
     @{
-        <partial name="_ValidationScriptsPartial" />
+            <partial name="_ValidationScriptsPartial" />
     }
     <script>
 
@@ -56,12 +56,26 @@
             $.ajax({
                 url: '/Basket/ToggleEditMode',
                 type: 'GET',
-                data: { mode: mode, save: save },
+                data: { onEditMode: mode, save: save },
                 success: function (result) {
                     $('#orderSummary').html(result);
                 },
                 error: function () {
                     console.log('An error occured.');
+                }
+            });
+        }
+
+        function modifyCountClicked(id, amount) {
+            $.ajax({
+                url: '/Basket/ChangeCount',
+                type: 'GET',
+                data: { id: id, count: amount },
+                success: function (result) {
+                    $('#orderSummary').html(result);
+                },
+                error: function () {
+                    console.log('Error in editing count.');
                 }
             });
         }

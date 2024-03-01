@@ -12,12 +12,14 @@ namespace BrowseBay.Profiles
             CreateMap<SignUpDto, LogInDto>();
 
             // Products
+            CreateMap<ProductOnPurchaseDto, Product>();
             CreateMap<ProductReadDto, Product>();
             CreateMap<ProductCreateDto, Product>();
             CreateMap<ProductDto, Product>();
-            CreateMap<Product, ProductReadDto>();
-            CreateMap<Product, ProductDto>();
             CreateMap<Product, ProductOnPurchaseDto>();
+            CreateMap<Product, ProductReadDto>();
+            CreateMap<Product, ProductCreateDto>();
+            CreateMap<Product, ProductDto>();
 
             // Categories
             CreateMap<Category, CategoryDto>();
