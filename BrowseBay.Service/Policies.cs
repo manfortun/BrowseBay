@@ -2,7 +2,7 @@
 
 namespace BrowseBay.Service;
 
-public enum Policies
+public enum Policy
 {
     [Roles([ Role.Seller, Role.Admin ])]
     SellerRights,

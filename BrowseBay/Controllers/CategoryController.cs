@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using BrowseBay.DataAccess;
 using BrowseBay.Models;
+using BrowseBay.Service;
 using BrowseBay.Service.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrowseBay.Controllers
 {
-    [Authorize(Policy = "AdminRights")]
+    [Authorize(Policy = nameof(Policy.AdminRights))]
     public class CategoryController : Controller
     {
         private readonly UnitOfWork _unitOfWork;

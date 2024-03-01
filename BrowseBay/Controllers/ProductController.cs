@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BrowseBay.DataAccess;
 using BrowseBay.Models;
+using BrowseBay.Service;
 using BrowseBay.Service.DTOs;
 using BrowseBay.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BrowseBay.Controllers
 {
-    [Authorize(Policy = "SellerRights")]
+    [Authorize(Policy = nameof(Policy.SellerRights))]
     public class ProductController : Controller
     {
         private readonly IUploadService<IFormFile> _uploadService;

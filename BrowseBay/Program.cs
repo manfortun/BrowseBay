@@ -33,13 +33,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAuthorization(options =>
 {
-    foreach (Policies p in Enum.GetValues(typeof(Policies)))
+    foreach (Policy policyEnum in Enum.GetValues(typeof(Policy)))
     {
-        string[]? roles = p.GetAttribute<RolesAttribute>()?.Roles;
+        string[]? roles = policyEnum.GetAttribute<RolesAttribute>()?.Roles;
 
         if (roles != null && roles.Any())
         {
-            options.AddPolicy(p.ToString(), policy =>
+            options.AddPolicy(policyEnum.ToString(), policy =>
             {
                 policy.RequireRole(roles);
             });

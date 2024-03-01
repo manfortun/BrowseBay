@@ -35,13 +35,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            @if ((await authService.AuthorizeAsync(User, "SellerRights")).Succeeded)
+                            @if ((await authService.AuthorizeAsync(User, nameof(Policy.SellerRights))).Succeeded)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Add">Add Product</a>
                                 </li>
                             }
-                            @if ((await authService.AuthorizeAsync(User, "AdminRights")).Succeeded)
+                            @if ((await authService.AuthorizeAsync(User, nameof(Policy.AdminRights))).Succeeded)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
