@@ -37,6 +37,11 @@
             <label asp-for="Description"></label>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
+        
+        <label>Categories</label>
+
+        <div class="input-group mb-3" style="width: 100%" id="categoryToggler">
+        </div>
 
         <div class="d-grid gap-2 d-xl-flex flex-row-reverse justify-content-xl-start">
             <button class="btn btn-primary ml-md-auto ps-5 pe-5" type="submit">Save</button>
@@ -47,10 +52,15 @@
 
 @section Scripts {
     @{
-            <partial name="_ValidationScriptsPartial" />
+                    <partial name="_ValidationScriptsPartial" />
     }
 
     <script>
+
+        window.onload = function(){
+            getCategorySwitch();
+        }
+
         function setImageSource() {
             var fileInput = document.getElementById('imageSourceInput');
             var file = fileInput.files[0];
@@ -73,6 +83,37 @@
             };
 
             xhr.send(formData);
+        }
+
+        function getCategorySwitch() {
+            console.log('Obtaining the category toggler...')
+            $.ajax({
+                url: '/Product/GetCategories',
+                type: 'GET',
+                success: function (result) {
+                    console.log('Obtained the category toggler.')
+                    $('#categoryToggler').html(result);
+                },
+                error: function () {
+                    console.log('Unable to obtain the category toggler.');
+                }
+            });
+        }
+
+        function toggleCategory(id) {
+            console.log('Toggling category...')
+            $.ajax({
+                url: '/Product/ToggleCategory',
+                type: 'GET',
+                data: { id: id },
+                success: function (result) {
+                    console.log('Toggle success.');
+                    $('#categoryToggler').html(result);
+                },
+                error: function () {
+                    console.log('Toggle failed.');
+                }
+            });
         }
     </script>
 }

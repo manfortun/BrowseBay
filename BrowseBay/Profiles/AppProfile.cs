@@ -13,6 +13,7 @@ namespace BrowseBay.Profiles
 
             // Products
             CreateMap<ProductReadDto, Product>();
+            CreateMap<ProductCreateDto, Product>();
             CreateMap<ProductDto, Product>();
             CreateMap<Product, ProductReadDto>();
             CreateMap<Product, ProductDto>();
@@ -22,6 +23,9 @@ namespace BrowseBay.Profiles
             CreateMap<Category, CategoryReadDto>();
             CreateMap<CategoryCreateDto, Category>();
             CreateMap<CategoryDto, Category>();
+
+            // Product Categories
+            CreateMap<ProductCategoryDto, ProductCategory>();
         }
     }
 }

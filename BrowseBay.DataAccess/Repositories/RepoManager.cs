@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
 namespace BrowseBay.DataAccess.Repositories
@@ -51,9 +52,9 @@ namespace BrowseBay.DataAccess.Repositories
             return _dbSet.Find(id);
         }
 
-        public virtual void Insert(T entity)
+        public virtual EntityEntry<T> Insert(T entity)
         {
-            _dbSet.Add(entity);
+            return _dbSet.Add(entity);
         }
 
         public virtual void Delete(T entity)
