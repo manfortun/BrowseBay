@@ -13,7 +13,7 @@ namespace BrowseBay.Controllers
         private readonly UnitOfWork _unitOfWork;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IMapper _mapper;
-        private static BasketService _basketService;
+        private static BasketService _localBasket;
         public BasketController(
             AppDbContext context,
             UserManager<IdentityUser> userManager,
@@ -33,51 +33,46 @@ namespace BrowseBay.Controllers
         [HttpGet]
         public IActionResult GetCarts()
         {
-            _basketService = new BasketService();
+            SyncDbBasketToLocalBasket();
 
-            string? userId = _userManager.GetUserId(User);
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return NotFound();
-            }
-
-            IEnumerable<Purchase> purchases = _unitOfWork.PurchaseManager.Get(c => c.OwnerId == userId);
-
-            _basketService.AddNewBasket(_mapper.Map<IEnumerable<PurchaseReadDto>>(purchases));
-
-            return PartialView("BasketSummaryPartialView", _basketService);
+            return PartialView("BasketSummaryPartialView", _localBasket);
         }
 
         [HttpGet]
         public IActionResult ToggleEditMode(bool onEditMode, bool save)
         {
-            _basketService.OnEditMode = onEditMode;
+            _localBasket.OnEditMode = onEditMode;
 
             if (save)
             {
-                if (!onEditMode && !SaveBasket())
+                // sync the local basket to the database basket
+                if (!onEditMode && !SyncLocalBasketToDbBasket())
                 {
                     return BadRequest();
                 }
             }
             else
             {
+                // resyncs the database basket to the local basket
                 return RedirectToAction("getcarts");
             }
 
-            return PartialView("BasketSummaryPartialView", _basketService);
+            return PartialView("BasketSummaryPartialView", _localBasket);
         }
 
         [HttpGet]
         public IActionResult ChangeCount(int id, int count)
         {
-            _basketService.ChangePurchaseCount(id, count);
+            _localBasket.ChangePurchaseCount(id, count);
 
-            return PartialView("BasketSummaryPartialView", _basketService);
+            return PartialView("BasketSummaryPartialView", _localBasket);
         }
 
-        private bool SaveBasket()
+        /// <summary>
+        /// Gets the local basket and syncs into the database basket
+        /// </summary>
+        /// <returns></returns>
+        private bool SyncLocalBasketToDbBasket()
         {
             string? userId = _userManager.GetUserId(User);
 
@@ -89,6 +84,11 @@ namespace BrowseBay.Controllers
             return MergeDbBasketWithLocalBasket(userId);
         }
 
+        /// <summary>
+        /// Merge the local basket to database basket
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         private bool MergeDbBasketWithLocalBasket(string userId)
         {
             IEnumerable<Purchase> oldBasket = _unitOfWork.PurchaseManager.Get(c => c.OwnerId == userId);
@@ -101,9 +101,13 @@ namespace BrowseBay.Controllers
             return AddLocalBasketToDb();
         }
 
+        /// <summary>
+        /// Sets the local basket to database
+        /// </summary>
+        /// <returns></returns>
         private bool AddLocalBasketToDb()
         {
-            IEnumerable<Purchase> newPurchase = _mapper.Map<IEnumerable<Purchase>>(_basketService.GetBasket());
+            IEnumerable<Purchase> newPurchase = _mapper.Map<IEnumerable<Purchase>>(_localBasket.GetBasket());
 
             foreach (var purchase in newPurchase)
             {
@@ -112,6 +116,27 @@ namespace BrowseBay.Controllers
             }
 
             _unitOfWork.Save();
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the database basket and syncs into the local basket
+        /// </summary>
+        /// <returns></returns>
+        private bool SyncDbBasketToLocalBasket()
+        {
+            _localBasket = new BasketService();
+
+            string? userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return false;
+            }
+
+            IEnumerable<Purchase> purchases = _unitOfWork.PurchaseManager.Get(c => c.OwnerId == userId);
+
+            _localBasket.AddNewBasket(_mapper.Map<IEnumerable<PurchaseReadDto>>(purchases));
             return true;
         }
     }
