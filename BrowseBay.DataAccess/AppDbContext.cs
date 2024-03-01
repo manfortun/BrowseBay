@@ -10,6 +10,7 @@ public class AppDbContext : IdentityDbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
+    public DbSet<Basket> Baskets { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -90,6 +91,10 @@ public class AppDbContext : IdentityDbContext
 
         builder.Entity<ProductCategory>()
             .HasIndex(pc => new { pc.ProductId, pc.CategoryId })
+            .IsUnique();
+
+        builder.Entity<Basket>()
+            .HasIndex(basket => new { basket.ProductId, basket.OwnerId })
             .IsUnique();
 
         builder.Entity<Category>().HasData(seedCategories);

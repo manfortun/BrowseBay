@@ -10,9 +10,11 @@ public class UnitOfWork : IDisposable
     private RepoManager<Product> _productManager = default!;
     private RepoManager<Category> _categoryManager = default!;
     private RepoManager<ProductCategory> _productCategoryManager = default!;
+    private RepoManager<Basket> _basketManager = default!;
     public RepoManager<Product> ProductManager => _productManager ??= new RepoManager<Product>(_context);
     public RepoManager<Category> CategoryManager => _categoryManager ??= new RepoManager<Category>(_context);
     public RepoManager<ProductCategory> ProductCategoryManager => _productCategoryManager ??= new RepoManager<ProductCategory>(_context);
+    public RepoManager<Basket> BasketManager => _basketManager ??= new RepoManager<Basket>(_context);
 
     public UnitOfWork(AppDbContext context)
     {
