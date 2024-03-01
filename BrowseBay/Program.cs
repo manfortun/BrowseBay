@@ -2,10 +2,12 @@ using BrowseBay.DataAccess;
 using BrowseBay.Service;
 using BrowseBay.Service.Services;
 using BrowseBay.Service.Services.Interfaces;
+using BrowseBay.Service.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,23 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+builder.Services.AddAuthorization(options =>
+{
+    foreach (Policies p in Enum.GetValues(typeof(Policies)))
+    {
+        string[]? roles = p.GetAttribute<RolesAttribute>()?.Roles;
+
+        if (roles != null && roles.Any())
+        {
+            options.AddPolicy(p.ToString(), policy =>
+            {
+                policy.RequireRole(roles);
+            });
+        }
+    }
+});
 
 builder.Services.AddTransient<UserValidator<IdentityUser>>();
 builder.Services.AddTransient<IAccountService, AccountService>();

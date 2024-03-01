@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BrowseBay.Service.DTOs;
+﻿namespace BrowseBay.Service.DTOs;
 
 public class CategoryReadDto
 {
