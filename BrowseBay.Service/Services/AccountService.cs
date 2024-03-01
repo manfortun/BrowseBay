@@ -21,7 +21,7 @@ public class AccountService : IAccountService
         _roleManager = roleManager;
     }
 
-    public async Task<bool> CreateAccountAsync(CredentialsCreateDto credentials)
+    public async Task<bool> CreateAccountAsync(SignUpDto credentials)
     {
         ArgumentNullException.ThrowIfNull(credentials);
 

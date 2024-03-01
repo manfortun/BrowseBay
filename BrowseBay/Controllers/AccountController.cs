@@ -52,7 +52,7 @@ namespace BrowseBay.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp(CredentialsCreateDto credentials)
+        public async Task<IActionResult> SignUp(SignUpDto credentials)
         {
             bool succeeded = await _accountService.CreateAccountAsync(credentials);
 

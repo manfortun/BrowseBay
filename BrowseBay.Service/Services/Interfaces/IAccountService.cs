@@ -6,7 +6,7 @@ namespace BrowseBay.Service.Services.Interfaces;
 
 public interface IAccountService
 {
-    Task<bool> CreateAccountAsync(CredentialsCreateDto credentials);
+    Task<bool> CreateAccountAsync(SignUpDto credentials);
 
     Task<SignInResult> SignInAsync(LogInDto credentials);
 

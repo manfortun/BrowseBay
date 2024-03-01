@@ -39,6 +39,7 @@ namespace BrowseBay.Controllers
             return RedirectToAction("index", "home");
         }
 
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             Product? product = _unitOfWork.ProductManager.Find(id);
@@ -48,7 +49,17 @@ namespace BrowseBay.Controllers
                 return NotFound();
             }
 
-            return View();
+            return View(_mapper.Map<ProductDto>(product));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ProductDto model)
+        {
+            _unitOfWork.ProductManager.Update(_mapper.Map<Product>(model));
+            _unitOfWork.Save();
+
+            TempData["success"] = "Product successfully updated";
+            return RedirectToAction("index", "home");
         }
 
         [HttpPost]

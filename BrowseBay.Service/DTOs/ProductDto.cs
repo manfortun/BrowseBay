@@ -2,8 +2,11 @@
 
 namespace BrowseBay.Service.DTOs;
 
-public class ProductAddDto
+public class ProductDto
 {
+    [Key]
+    public int Id { get; set; }
+
     [Required]
     public string Name { get; set; } = default!;
 

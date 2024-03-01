@@ -1,4 +1,4 @@
-﻿@model ProductAddDto
+﻿@model ProductCreateDto
 
 @{
     ViewData["Title"] = "Add Product";
@@ -11,7 +11,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="mx-auto d-block m-3 position-relative" style="height: 200px; width: 200px;">
-            <img class="card-img rounded shadow-sm" style="height: inherit; object-fit: cover;" id="imageSourceImg"/>
+            <img class="card-img" height="150px" style="object-fit:cover;" id="imageSourceImg" asp-append-version="true" />
             <label for="imageSourceInput" class="btn btn-light border position-absolute bottom-0 end-0" style="display: inline-block;cursor: pointer;border-radius: 4px;">
                 <i class="bi bi-pencil"></i>
             </label>

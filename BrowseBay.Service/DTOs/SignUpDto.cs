@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BrowseBay.Service.DTOs;
 
-public class CredentialsCreateDto
+public class SignUpDto
 {
     [Required]
     public string Username { get; set; } = default!;

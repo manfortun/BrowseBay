@@ -8,9 +8,14 @@ namespace BrowseBay.Profiles
     {
         public AppProfile()
         {
-            CreateMap<CredentialsCreateDto, LogInDto>();
-            CreateMap<Product, ProductReadDto>();
+            // Login
+            CreateMap<SignUpDto, LogInDto>();
+
+            // Products
             CreateMap<ProductReadDto, Product>();
+            CreateMap<ProductDto, Product>();
+            CreateMap<Product, ProductReadDto>();
+            CreateMap<Product, ProductDto>();
         }
     }
 }
