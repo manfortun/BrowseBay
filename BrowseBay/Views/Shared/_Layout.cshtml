@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 <body>
     <header>
@@ -33,7 +35,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Basket</a>
                             </li>
                             @if ((await authService.AuthorizeAsync(User, nameof(Policy.SellerRights))).Succeeded)
                             {
@@ -53,7 +55,14 @@
                         <ul class="navbar-nav flex-grow-1 flex-row-reverse">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
-                                    <i class="bi bi-box-arrow-right"></i> Logout @User.Identity?.Name</a>
+                                    <i class="bi bi-box-arrow-right"></i> Logout @User.Identity?.Name
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">
+                                    <i class="bi bi-basket"></i>
+                                    <span class="d-sm-none"> View Cart</span>
+                                </a>
                             </li>
                         </ul>
                     </div>

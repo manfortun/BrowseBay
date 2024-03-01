@@ -1,7 +1,6 @@
 ﻿using BrowseBay.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace BrowseBay.DataAccess;
 
@@ -10,7 +9,7 @@ public class AppDbContext : IdentityDbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
-    public DbSet<Basket> Baskets { get; set; }
+    public DbSet<Purchase> Purchases { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -93,7 +92,7 @@ public class AppDbContext : IdentityDbContext
             .HasIndex(pc => new { pc.ProductId, pc.CategoryId })
             .IsUnique();
 
-        builder.Entity<Basket>()
+        builder.Entity<Purchase>()
             .HasIndex(basket => new { basket.ProductId, basket.OwnerId })
             .IsUnique();
 

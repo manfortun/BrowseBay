@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrowseBay.Models;
 
-public class Basket
+public class Purchase
 {
     [Key]
     public int Id { get; set; }

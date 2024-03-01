@@ -37,8 +37,8 @@
 
             </div>
             <div class="card-body m-2">
-                <button class="badge rounded-pill border-0 p-2" onclick="addtocart(@p.Id)" title="Add to cart">
-                    <i class="bi bi-plus text-primary" style="font-size: 20px"></i>
+                <button class="badge rounded-pill border-0 p-2 highlightonhover" onclick="addtocart(@p.Id)" title="Add to cart">
+                    <i class="bi bi-plus" style="font-size: 20px"></i>
                 </button>
             </div>
 
@@ -74,21 +74,3 @@
         </ul>
     }
 </div>
-@section Scripts{
-    <script>
-
-        function onProductClick(id) {
-            $.ajax({
-                url: '/EditProduct/Index',
-                type: 'POST'
-                data: { id: id },
-                success: function (result) {
-                    console.log('Editing product.');
-                },
-                error: function () {
-                    console.log('Failed to edit the product.');
-                }
-            });
-        }
-    </script>
-}

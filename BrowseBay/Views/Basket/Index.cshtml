@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Cart";
+}
+
+<div class="container p-3" id="parentContainer">
+
+    <div class="row d-flex flex-column-reverse flex-lg-row">
+        <div class="text-center mt-5 d-none" id="noOrderDiv">
+            <h6>Add items to cart from the <a href="/Home">Shop</a>.</h6>
+        </div>
+
+        <div class="mb-5" id="titleDiv">
+            <div class="container-fluid">
+                <h1>Check out your items.</h1>
+            </div>
+        </div>
+
+        <div class="col d-flex flex-column mb-4" id="col2">
+            <div id="orderSummary">
+                <div class="d-flex mb-1">
+                    <label class="text-uppercase flex-grow-1">Your Order</label>
+                    <button onclick="toggleEditMode(false, false)" class="text-uppercase btn btn-sm" id="toggleBtnCancel">Cancel</button>
+                    <button onclick="toggleEditMode(!editMode, true)" id="toggleBtn" class="btn btn-sm"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+
+        window.onload = function () {
+            getPurchases();
+        }
+
+        function getPurchases() {
+            console.log('Obtaining purchases...');
+
+            $.ajax({
+                url: '/Basket/GetCarts',
+                type: 'GET',
+                success: function (result) {
+                    console.log('Purchases obtained.');
+                    $('#orderSummary').html(result);
+                },
+                error: function () {
+                    console.log('Failed in obtaining purchases.');
+                }
+            });
+        }
+
+        function toggleEditMode(mode, save) {
+            $.ajax({
+                url: '/Basket/ToggleEditMode',
+                type: 'GET',
+                data: { mode: mode, save: save },
+                success: function (result) {
+                    $('#orderSummary').html(result);
+                },
+                error: function () {
+                    console.log('An error occured.');
+                }
+            });
+        }
+    </script>
+}
