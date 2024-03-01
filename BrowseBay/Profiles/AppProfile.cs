@@ -19,6 +19,8 @@ namespace BrowseBay.Profiles
 
             // Categories
             CreateMap<Category, CategoryReadDto>();
+            CreateMap<CategoryDto, Category>();
+            CreateMap<Category, CategoryDto>();
         }
     }
 }

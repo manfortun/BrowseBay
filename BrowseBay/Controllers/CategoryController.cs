@@ -28,5 +28,28 @@ namespace BrowseBay.Controllers
 
             return View(_mapper.Map<IEnumerable<CategoryReadDto>>(categories));
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Category? category = _unitOfWork.CategoryManager.Find(id);
+
+            if (category is null)
+            {
+                return NotFound();
+            }
+
+            return View(_mapper.Map<CategoryDto>(category));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CategoryDto model)
+        {
+            _unitOfWork.CategoryManager.Update(_mapper.Map<Category>(model));
+            _unitOfWork.Save();
+
+            TempData["success"] = "Product successfully changed.";
+            return RedirectToAction("index", "category");
+        }
     }
 }
