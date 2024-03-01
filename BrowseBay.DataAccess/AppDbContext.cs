@@ -90,7 +90,7 @@ public class AppDbContext : IdentityDbContext
 
         builder.Entity<ProductCategory>()
             .HasIndex(pc => new { pc.ProductId, pc.CategoryId })
-        .IsUnique();
+            .IsUnique();
 
         builder.Entity<Category>().HasData(seedCategories);
 

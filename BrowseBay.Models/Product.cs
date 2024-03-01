@@ -18,6 +18,5 @@ public class Product
     public string Description { get; set; } = default!;
 
     public string? ImageSource { get; set; }
-
-    public virtual List<Category>? Categories { get; set; }
+    public virtual List<ProductCategory>? Category { get; set; }
 }

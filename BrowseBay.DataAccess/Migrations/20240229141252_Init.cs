@@ -58,7 +58,7 @@ namespace BrowseBay.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,36 +188,11 @@ namespace BrowseBay.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryProduct",
-                columns: table => new
-                {
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    ProductsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CategoryProduct", x => new { x.CategoriesId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_CategoryProduct_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CategoryProduct_Products_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductCategories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -282,35 +257,35 @@ namespace BrowseBay.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "ProductCategories",
-                columns: new[] { "CategoryId", "ProductId", "Id" },
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[,]
                 {
-                    { 1, 1, 0 },
-                    { 2, 2, 0 },
-                    { 3, 3, 0 },
-                    { 4, 4, 0 },
-                    { 5, 5, 0 },
-                    { 6, 6, 0 },
-                    { 6, 7, 0 },
-                    { 7, 7, 0 },
-                    { 8, 8, 0 },
-                    { 9, 9, 0 },
-                    { 10, 10, 0 },
-                    { 2, 11, 0 },
-                    { 2, 12, 0 },
-                    { 5, 12, 0 },
-                    { 10, 12, 0 },
-                    { 2, 13, 0 },
-                    { 2, 14, 0 },
-                    { 2, 15, 0 },
-                    { 5, 15, 0 },
-                    { 10, 15, 0 },
-                    { 2, 16, 0 },
-                    { 2, 17, 0 },
-                    { 2, 18, 0 },
-                    { 2, 19, 0 },
-                    { 3, 19, 0 },
-                    { 2, 20, 0 }
+                    { 1, 1 },
+                    { 2, 2 },
+                    { 3, 3 },
+                    { 4, 4 },
+                    { 5, 5 },
+                    { 6, 6 },
+                    { 6, 7 },
+                    { 7, 7 },
+                    { 8, 8 },
+                    { 9, 9 },
+                    { 10, 10 },
+                    { 2, 11 },
+                    { 2, 12 },
+                    { 5, 12 },
+                    { 10, 12 },
+                    { 2, 13 },
+                    { 2, 14 },
+                    { 2, 15 },
+                    { 5, 15 },
+                    { 10, 15 },
+                    { 2, 16 },
+                    { 2, 17 },
+                    { 2, 18 },
+                    { 2, 19 },
+                    { 3, 19 },
+                    { 2, 20 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -353,11 +328,6 @@ namespace BrowseBay.DataAccess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryProduct_ProductsId",
-                table: "CategoryProduct",
-                column: "ProductsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductCategories_CategoryId",
                 table: "ProductCategories",
                 column: "CategoryId");
@@ -386,9 +356,6 @@ namespace BrowseBay.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "CategoryProduct");
 
             migrationBuilder.DropTable(
                 name: "ProductCategories");

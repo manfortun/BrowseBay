@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrowseBay.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240229125624_Init")]
+    [Migration("20240229141252_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -38,7 +38,8 @@ namespace BrowseBay.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -295,9 +296,6 @@ namespace BrowseBay.DataAccess.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.HasKey("ProductId", "CategoryId");
 
                     b.HasIndex("CategoryId");
@@ -311,174 +309,133 @@ namespace BrowseBay.DataAccess.Migrations
                         new
                         {
                             ProductId = 1,
-                            CategoryId = 1,
-                            Id = 0
+                            CategoryId = 1
                         },
                         new
                         {
                             ProductId = 2,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 3,
-                            CategoryId = 3,
-                            Id = 0
+                            CategoryId = 3
                         },
                         new
                         {
                             ProductId = 4,
-                            CategoryId = 4,
-                            Id = 0
+                            CategoryId = 4
                         },
                         new
                         {
                             ProductId = 5,
-                            CategoryId = 5,
-                            Id = 0
+                            CategoryId = 5
                         },
                         new
                         {
                             ProductId = 6,
-                            CategoryId = 6,
-                            Id = 0
+                            CategoryId = 6
                         },
                         new
                         {
                             ProductId = 7,
-                            CategoryId = 7,
-                            Id = 0
+                            CategoryId = 7
                         },
                         new
                         {
                             ProductId = 7,
-                            CategoryId = 6,
-                            Id = 0
+                            CategoryId = 6
                         },
                         new
                         {
                             ProductId = 8,
-                            CategoryId = 8,
-                            Id = 0
+                            CategoryId = 8
                         },
                         new
                         {
                             ProductId = 9,
-                            CategoryId = 9,
-                            Id = 0
+                            CategoryId = 9
                         },
                         new
                         {
                             ProductId = 10,
-                            CategoryId = 10,
-                            Id = 0
+                            CategoryId = 10
                         },
                         new
                         {
                             ProductId = 11,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 12,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 12,
-                            CategoryId = 5,
-                            Id = 0
+                            CategoryId = 5
                         },
                         new
                         {
                             ProductId = 12,
-                            CategoryId = 10,
-                            Id = 0
+                            CategoryId = 10
                         },
                         new
                         {
                             ProductId = 13,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 14,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 15,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 15,
-                            CategoryId = 5,
-                            Id = 0
+                            CategoryId = 5
                         },
                         new
                         {
                             ProductId = 15,
-                            CategoryId = 10,
-                            Id = 0
+                            CategoryId = 10
                         },
                         new
                         {
                             ProductId = 16,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 17,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 18,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 19,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         },
                         new
                         {
                             ProductId = 19,
-                            CategoryId = 3,
-                            Id = 0
+                            CategoryId = 3
                         },
                         new
                         {
                             ProductId = 20,
-                            CategoryId = 2,
-                            Id = 0
+                            CategoryId = 2
                         });
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("CategoryProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -688,7 +645,7 @@ namespace BrowseBay.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("BrowseBay.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Category")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -696,21 +653,6 @@ namespace BrowseBay.DataAccess.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("BrowseBay.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BrowseBay.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -762,6 +704,11 @@ namespace BrowseBay.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BrowseBay.Models.Product", b =>
+                {
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

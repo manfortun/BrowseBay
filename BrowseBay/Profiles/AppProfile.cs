@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BrowseBay.Models;
 using BrowseBay.Service.DTOs;
 
 namespace BrowseBay.Profiles
@@ -8,6 +9,7 @@ namespace BrowseBay.Profiles
         public AppProfile()
         {
             CreateMap<CredentialsCreateDto, LogInDto>();
+            CreateMap<Product, ProductReadDto>();
         }
     }
 }

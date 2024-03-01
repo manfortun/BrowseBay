@@ -3,6 +3,28 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div id="itemsList"></div>
 </div>
+@section Scripts{
+    <script>
+        window.onload = function () {
+            console.log('Loading home page');
+            getItems(null);
+        }
+
+        function getItems(pageNo) {
+            $.ajax({
+                url: '/Home/GetItems',
+                type: 'GET',
+                data: { pageNo: pageNo },
+                success: function (result) {
+                    $('#itemsList').html(result);
+                    console.log('Displaying items.');
+                },
+                error: function () {
+                    console.log('Something went wrong on obtaining the products.');
+                }
+            });
+        }
+    </script>
+}

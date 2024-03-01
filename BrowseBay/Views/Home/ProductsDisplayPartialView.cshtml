@@ -1,1 +1,74 @@
-﻿
+﻿@model IPaginationService<ProductReadDto>
+
+<!-- Main content-->
+<div class="card-deck d-flex flex-wrap justify-content-start ps-0">
+    @foreach (ProductReadDto p in Model.Get())
+    {
+        <div class="card position-relative me-3 mb-3" style="width: 200px; min-height: 200px" title="@p.Name">
+
+            <div class="card-body text-center" onclick="">
+                <img class="card-img" height="150px" style="object-fit:cover;" src="@(string.IsNullOrEmpty(p.ImageSource) ? "~/images/no-image.jpg" : p.ImageSource)" asp-append-version="true" />
+                <h6 class="card-title mt-4 mb-1 text-primary-emphasis overflow-hidden" style="white-space:nowrap; text-overflow: ellipsis">@p.Name</h6>
+                <div class="row">
+                    @* <small class="text-body-tertiary overflow-hidden" style="font-size: 12px; white-space: nowrap; text-overflow: ellipsis">
+                        @p.GetCategoriesFormattedString()
+                    </small> *@
+                    <small class="card-text text-body-tertiary">
+                        Php @p.Price.ToString("N2")
+                    </small>
+                </div>
+            </div>
+
+            <div class="position-relative">
+                <div class="position-absolute bottom-0 end-0 m-2">
+                    <button class="badge bg-outline-primary rounded-pill border-0 p-1" onclick="addtocart(@p.Id)">
+                        <i class="bi bi-plus text-primary" style="font-size: 20px"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+
+<!-- Pagination-->
+<div>
+    @if (Model != null && Model.Get().Any())
+    {
+        <ul class="pagination pagination-sm">
+            <li class="page-item @(Model.ActivePage <= 1 ? "disabled" : "")">
+                <a class="page-link"
+                href="#" onclick="getItems(@Model.ActivePage - 1)">&laquo;</a>
+            </li>
+
+            @foreach (int pageNo in Enumerable.Range(1, Model.NoOfPages))
+            {
+                <li class="page-item @(Model.ActivePage == pageNo ? "active" : "")">
+                    <a class="page-link" href="#" onclick="getItems(@pageNo)">@pageNo</a>
+                </li>
+            }
+
+            <li class="page-item @(Model.ActivePage >= Model.NoOfPages ? "disabled" : "")">
+                <a class="page-link"
+                    href="#" onclick="getItems(@Model.ActivePage + 1)">&raquo;</a>
+            </li>
+        </ul>
+    }
+</div>
+@section Scripts{
+    <script>
+        function onProductClick(id) {
+            $.ajax({
+                url: '/EditProduct/Index',
+                type: 'POST'
+                data: { id: id },
+                success: function (result) {
+                    console.log('Editing product.');
+                },
+                error: function () {
+                    console.log('Failed to edit the product.');
+                }
+            });
+        }
+    </script>
+}
