@@ -1,11 +1,14 @@
 using AutoMapper;
 using BrowseBay.DataAccess;
 using BrowseBay.Models;
+using BrowseBay.Service;
 using BrowseBay.Service.DTOs;
 using BrowseBay.Service.Services;
 using BrowseBay.Service.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace BrowseBay.Controllers
 {
