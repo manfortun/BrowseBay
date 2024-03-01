@@ -10,14 +10,19 @@ public class CategoryStateManagerBuilder : CategoryStateManager
         return this;
     }
 
-    public CategoryStateManagerBuilder SetSelectedItems(IEnumerable<CategoryReadDto> categories)
+    public CategoryStateManagerBuilder SetSelectedItems(IEnumerable<int> categoryIds)
     {
-        categories.ToList().ForEach(c => _selectedCategories.Add(c.Id));
+        foreach (var id in categoryIds)
+        {
+            _selectedCategories.Add(id);
+        }
+
         return this;
     }
 
     public CategoryStateManager Build()
     {
+        ArgumentNullException.ThrowIfNull(CategoryReadDtos);
         return this;
     }
 }

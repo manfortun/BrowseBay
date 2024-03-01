@@ -79,6 +79,23 @@ namespace BrowseBay.Controllers
         public IActionResult Edit(ProductDto model)
         {
             _unitOfWork.ProductManager.Update(_mapper.Map<Product>(model));
+
+            IEnumerable<ProductCategory> toDelete = _unitOfWork.ProductCategoryManager
+                .Get(c => c.ProductId == model.Id);
+            IEnumerable<ProductCategoryDto> toAdd = _categoryStateManager.ToProductCategoryDtos(model.Id);
+
+            // delete the old categories of the product
+            foreach (var delete in toDelete)
+            {
+                _unitOfWork.ProductCategoryManager.Delete(delete);
+            }
+
+            // replace with the new categories
+            foreach (var add in toAdd)
+            {
+                _unitOfWork.ProductCategoryManager.Insert(_mapper.Map<ProductCategory>(add));
+            }
+
             _unitOfWork.Save();
 
             TempData["success"] = "Product successfully updated";
@@ -108,16 +125,26 @@ namespace BrowseBay.Controllers
             return Content($"~/images/{finalizedFileName}");
         }
 
-        [HttpGet]
-        public IActionResult GetCategories()
+        [HttpGet, HttpPost]
+        public IActionResult GetCategories(int id)
         {
             IEnumerable<Category> categories = _unitOfWork.CategoryManager.Get();
 
             var builder = new CategoryStateManagerBuilder();
 
-            _categoryStateManager = builder
-                .SetItems(_mapper.Map<IEnumerable<CategoryReadDto>>(categories))
-                .Build();
+            builder = builder
+                .SetItems(_mapper.Map<IEnumerable<CategoryReadDto>>(categories));
+
+            // obtain the categories of the product with the specified id
+            if (id > 0)
+            {
+                IEnumerable<ProductCategory> productCategories = _unitOfWork.ProductCategoryManager
+                    .Get(c => c.ProductId == id);
+
+                builder = builder.SetSelectedItems(productCategories.Select(c => c.CategoryId));
+            }
+
+            _categoryStateManager = builder.Build();
 
             return PartialView("CategoryTogglePartialView", _categoryStateManager);
         }

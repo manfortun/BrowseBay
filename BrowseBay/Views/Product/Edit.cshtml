@@ -5,9 +5,12 @@
 }
 
 <div class="container col-md-6 col-lg-5 mt-3">
-    <form class="border p-3" method="post">
+    <form class="border p-3" method="post" id="formData" value="@Model.Id">
         <legend>@ViewData["Title"]</legend>
         <hr />
+
+        <input asp-for="Id" id="modelId" hidden />
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="mx-auto d-block m-3 position-relative" style="height: 200px; width: 200px;">
@@ -38,6 +41,9 @@
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
+        <label>Categories</label>
+        <div class="input-group mb-3" style="width: 100%" id="categoryToggler"></div>
+
         <div class="d-grid gap-2 d-xl-flex flex-row-reverse justify-content-xl-start">
             <button class="btn btn-primary ml-md-auto ps-5 pe-5" type="submit">Save</button>
             <button class="btn btn-outline-secondary ml-md-auto ps-5 pe-5" asp-controller="home" asp-action="index">Cancel</button>
@@ -51,6 +57,24 @@
     }
 
     <script>
+
+        $(document).ready(function() {
+            var id = @Model.Id;
+
+            $.ajax({
+                url: '/Product/GetCategories',
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    console.log('Obtained the category toggler.')
+                    $('#categoryToggler').html(result);
+                },
+                error: function () {
+                    console.log('Unable to obtain the category toggler.');
+                }
+            });
+        })
+
         function setImageSource() {
             var fileInput = document.getElementById('imageSourceInput');
             var file = fileInput.files[0];
@@ -73,6 +97,22 @@
             };
 
             xhr.send(formData);
+        }
+
+        function toggleCategory(id) {
+            console.log('Toggling category...')
+            $.ajax({
+                url: '/Product/ToggleCategory',
+                type: 'GET',
+                data: { id: id },
+                success: function (result) {
+                    console.log('Toggle success.');
+                    $('#categoryToggler').html(result);
+                },
+                error: function () {
+                    console.log('Toggle failed.');
+                }
+            });
         }
     </script>
 }

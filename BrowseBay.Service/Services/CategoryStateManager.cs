@@ -6,7 +6,7 @@ public class CategoryStateManager
 {
     protected HashSet<int> _selectedCategories = new HashSet<int>();
 
-    public IEnumerable<CategoryReadDto> CategoryReadDtos { get; protected set; } = new List<CategoryReadDto>();
+    public IEnumerable<CategoryReadDto> CategoryReadDtos { get; protected set; } = default!;
 
     public int[] SelectedCategoryIds => [.. _selectedCategories];
 
