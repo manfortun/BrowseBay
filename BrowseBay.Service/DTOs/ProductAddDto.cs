@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BrowseBay.Models;
+namespace BrowseBay.Service.DTOs;
 
-public class Product
+public class ProductAddDto
 {
-    [Key]
-    public int Id { get; set; }
-
     [Required]
     public string Name { get; set; } = default!;
 
@@ -17,5 +14,4 @@ public class Product
     public string? Description { get; set; } = default!;
 
     public string? ImageSource { get; set; }
-    public virtual List<ProductCategory>? Category { get; set; }
 }

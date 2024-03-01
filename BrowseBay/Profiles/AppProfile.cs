@@ -10,6 +10,7 @@ namespace BrowseBay.Profiles
         {
             CreateMap<CredentialsCreateDto, LogInDto>();
             CreateMap<Product, ProductReadDto>();
+            CreateMap<ProductReadDto, Product>();
         }
     }
 }

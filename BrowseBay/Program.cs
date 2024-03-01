@@ -30,7 +30,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddTransient<UserValidator<IdentityUser>>();
 builder.Services.AddTransient<IAccountService, AccountService>();
-
+builder.Services.AddTransient<IUploadService<IFormFile>, FormFileUploadService>();
 builder.Services.AddMvc(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
