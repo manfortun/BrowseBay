@@ -24,11 +24,11 @@
                     {
                         <form method="post" asp-controller="product" asp-action="delete" asp-route-id="@p.Id"
                                 onsubmit="return deleteProduct()" class="d-flex justify-content-end">
-                            <a class="badge rounded-pill border-0 p-2 me-1" style="background-color: buttonface" title="Edit product"
+                            <a class="badge rounded-pill border-0 p-2 me-1 shadow" style="background-color: buttonface" title="Edit product"
                                 asp-controller="product" asp-action="edit" asp-route-id="@p.Id">
                                 <i class="bi bi-pencil text-primary" style="font-size: 20px"></i>
                             </a>
-                            <button class="badge rounded-pill border-0 p-2" title="Delete">
+                            <button class="badge rounded-pill border-0 p-2 shadow" title="Delete">
                                 <i class="bi bi-trash text-danger" style="font-size: 20px"></i>
                             </button>
                         </form>
@@ -53,7 +53,9 @@
         <ul class="pagination pagination-sm">
             <li class="page-item @(Model.ActivePage <= 1 ? "disabled" : "")">
                 <a class="page-link"
-                href="#" onclick="getItems(@Model.ActivePage - 1)">&laquo;</a>
+                href="#" onclick="getItems(@Model.ActivePage - 1)">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
             </li>
 
             @foreach (int pageNo in Enumerable.Range(1, Model.NoOfPages))
@@ -65,7 +67,9 @@
 
             <li class="page-item @(Model.ActivePage >= Model.NoOfPages ? "disabled" : "")">
                 <a class="page-link"
-                    href="#" onclick="getItems(@Model.ActivePage + 1)">&raquo;</a>
+                    href="#" onclick="getItems(@Model.ActivePage + 1)">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
             </li>
         </ul>
     }
