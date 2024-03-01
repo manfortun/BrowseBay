@@ -35,7 +35,9 @@ namespace BrowseBay.Controllers
         {
             SyncDbBasketToLocalBasket();
 
-            return PartialView("BasketSummaryPartialView", _localBasket);
+            return _localBasket.GetNoOfItems() > 0 ?
+                PartialView("BasketSummaryPartialView", _localBasket) :
+                PartialView("NoContentPartialView");
         }
 
         [HttpGet]
@@ -57,7 +59,9 @@ namespace BrowseBay.Controllers
                 return RedirectToAction("getcarts");
             }
 
-            return PartialView("BasketSummaryPartialView", _localBasket);
+            return _localBasket.GetNoOfItems() > 0 ?
+                PartialView("BasketSummaryPartialView", _localBasket) :
+                PartialView("NoContentPartialView");
         }
 
         [HttpGet]
