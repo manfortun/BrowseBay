@@ -22,7 +22,7 @@
                     @if (User.IsInRole(nameof(Role.Seller)))
                     {
                         <form method="post" asp-controller="account" asp-action="delete" asp-route-id="@p.Id"
-                                onsubmit="return deleteProduct(@p.Id)" class="d-flex justify-content-end">
+                                onsubmit="return deleteProduct()" class="d-flex justify-content-end">
                             <a class="badge rounded-pill border-0 p-2 me-1" style="background-color: buttonface" title="Edit product"
                                 asp-controller="product" asp-action="edit" asp-route-id="@p.Id">
                                 <i class="bi bi-pencil text-primary" style="font-size: 20px"></i>
