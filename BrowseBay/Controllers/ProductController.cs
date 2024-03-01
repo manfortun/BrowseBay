@@ -63,6 +63,16 @@ namespace BrowseBay.Controllers
         }
 
         [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _unitOfWork.ProductManager.Delete(id);
+            _unitOfWork.Save();
+
+            TempData["success"] = "Product deleted";
+            return RedirectToAction("index", "home");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> SetImage(IFormFile file)
         {
             string finalizedFileName = _uploadService.GetAvailableFileName(file.FileName);

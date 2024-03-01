@@ -1,0 +1,8 @@
+﻿.appear-on-hover {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.appear-on-hover:hover {
+    opacity: 1;
+}

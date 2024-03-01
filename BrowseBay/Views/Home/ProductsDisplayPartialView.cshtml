@@ -18,18 +18,27 @@
                     </small>
                 </div>
 
-                <div class="card-body m-2">
-                    <button class="badge rounded-pill border-0 p-2" onclick="addtocart(@p.Id)" title="Add to cart">
-                        <i class="bi bi-plus text-primary" style="font-size: 20px"></i>
-                    </button>
+                <div class="appear-on-hover position-absolute top-0 end-0 p-1" style="height: 100%;width: 100%;">
                     @if (User.IsInRole(nameof(Role.Seller)))
                     {
-                        <a class="badge rounded-pill border-0 p-2" style="background-color: buttonface" title="Edit product"
-                            asp-controller="product" asp-action="edit" asp-route-id="@p.Id">
-                            <i class="bi bi-pencil text-primary" style="font-size: 20px"></i>
-                        </a>
+                        <form method="post" asp-controller="account" asp-action="delete" asp-route-id="@p.Id"
+                                onsubmit="return deleteProduct(@p.Id)" class="d-flex justify-content-end">
+                            <a class="badge rounded-pill border-0 p-2 me-1" style="background-color: buttonface" title="Edit product"
+                                asp-controller="product" asp-action="edit" asp-route-id="@p.Id">
+                                <i class="bi bi-pencil text-primary" style="font-size: 20px"></i>
+                            </a>
+                            <button class="badge rounded-pill border-0 p-2" title="Delete">
+                                <i class="bi bi-trash text-danger" style="font-size: 20px"></i>
+                            </button>
+                        </form>
                     }
                 </div>
+
+            </div>
+            <div class="card-body m-2">
+                <button class="badge rounded-pill border-0 p-2" onclick="addtocart(@p.Id)" title="Add to cart">
+                    <i class="bi bi-plus text-primary" style="font-size: 20px"></i>
+                </button>
             </div>
 
         </div>
