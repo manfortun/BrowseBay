@@ -89,7 +89,9 @@
                     fileName = xhr.responseText;
 
                     document.getElementById('imageSourceBind').value = fileName;
-                    document.getElementById('imageSourceImg').src = fileName;
+
+                    var forDisplay = window.location.protocol + '//' + window.location.host + fileName.substring(1);
+                    document.getElementById('imageSourceImg').src = forDisplay;
                 } else {
                     toastr.error(xhr.responseText);
                     console.error('Failed to upload file.');
