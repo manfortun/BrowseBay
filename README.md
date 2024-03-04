@@ -13,7 +13,7 @@ Make sure that your machine has a local server instance.
 
 #### 2. Open Package Manager Console
 * In Visual Studio, go to `Tools`>`NuGet Package Manager`>`Package Manager Console`.
-* Make sure that the selected `Default Project` is set to `EMarket.DataAccess`
+* Make sure that the selected `Default Project` is set to `BrowseBay.DataAccess`
 
 #### 3. Run Database Migration
 * In the Package Manager Console, enter the following command: `update-database`
