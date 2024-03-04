@@ -5,18 +5,29 @@
 }
 
 <div class="container border p-4 col-lg-5">
+    <legend><b>Log in to your account</b></legend>
+    <h6 class="text-secondary mb-4">Welcome back! Select method to login:</h6>
+
+    <div class="d-flex justify-content-center">
+        <form method="post" asp-action="ExternalLogin" action="@Model.ReturnUrl">
+            <button type="submit" name="provider" value="Google" title="Login using your Google account."
+                class="btn btn-outline-primary"><i class="bi bi-google"></i> Google</button>
+        </form>
+    </div>
+
+    <div class="m-4 d-flex justify-content-center">
+        <label>or continue with username</label>
+    </div>
+
     <form method="post" class="m-3">
         <fieldset>
-            <legend>Log In</legend>
-            <hr />
-
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <!-- Username field-->
             <div class="form-group col mb-3 p-1">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <!-- Password field-->
@@ -28,7 +39,7 @@
 
             <button type="submit" class="btn btn-primary form-control">Log In</button>
             <div class="row mt-3">
-                <a asp-action="signup" class="btn btn-link">or create an account</a>
+                <span>Don't have an account? <a asp-action="signup" class="text-decoration-none">Create an account</a></span>
             </div>
 
         </fieldset>
