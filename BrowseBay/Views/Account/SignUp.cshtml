@@ -17,13 +17,6 @@
                     asp-items="@Html.GetEnumSelectList<Role>()"></select>
             </div>
 
-            <!-- Username field-->
-            <div class="form-group col mb-3 p-1">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-
             <!-- Email field-->
             <div class="form-group col mb-3 p-1">
                 <label asp-for="Email"></label>

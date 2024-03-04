@@ -27,7 +27,7 @@ public class AccountService : IAccountService
 
         var identityUser = new IdentityUser
         {
-            UserName = credentials.Username,
+            UserName = credentials.Email,
             Email = credentials.Email,
         };
 
@@ -59,7 +59,7 @@ public class AccountService : IAccountService
     public async Task<SignInResult> SignInAsync(LogInDto credentials)
     {
         return await _signInManager.PasswordSignInAsync(
-            credentials.Username,
+            credentials.Email,
             credentials.Password,
             isPersistent: false,
             lockoutOnFailure: false);
