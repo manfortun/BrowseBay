@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrowseBay.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240301084943_ChangeBasketNameToPurchases")]
-    partial class ChangeBasketNameToPurchases
+    [Migration("20240304061625_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
