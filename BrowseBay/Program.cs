@@ -1,12 +1,13 @@
 using BrowseBay.DataAccess;
 using BrowseBay.Service;
-using BrowseBay.Service.Attributes;
 using BrowseBay.Service.Services;
 using BrowseBay.Service.Services.Interfaces;
+using BrowseBay.Service.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +30,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
-    {
-        options.ClientId = "150624270564-dp61t8qvfsep99ofkro7cvsc9ulp9e1o.apps.googleusercontent.com";
-        options.ClientSecret = "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";
-    });
 
 builder.Services.AddAuthorization(options =>
 {
