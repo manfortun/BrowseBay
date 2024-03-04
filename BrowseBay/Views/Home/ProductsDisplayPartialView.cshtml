@@ -5,7 +5,7 @@
 <div class="card-deck d-flex flex-wrap justify-content-start ps-0">
     @foreach (ProductReadDto p in Model.Get())
     {
-        <div class="card position-relative me-3 mb-3" style="width: 200px; min-height: 200px" title="@p.Name">
+        <div class="card position-relative me-3 mb-3" style="width: 180px; min-height: 200px" title="@p.Name">
 
             <div class="card-body text-center position-relative pb-0" >
                 <img class="card-img" height="150px" style="object-fit:cover;" src="@(string.IsNullOrEmpty(p.ImageSource) ? "~/images/no-image.jpg" : p.ImageSource)" asp-append-version="true" />

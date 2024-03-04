@@ -11,4 +11,6 @@ public class ProductReadDto
     public string Description { get; set; } = default!;
 
     public string? ImageSource { get; set; }
+
+    public List<ProductCategoryDto> Category { get; set; }
 }

@@ -27,6 +27,11 @@ namespace BrowseBay.Controllers
             _mapper = mapper;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult GetItems(int? pageNo)
         {
@@ -78,9 +83,11 @@ namespace BrowseBay.Controllers
             return Ok(product.Name);
         }
 
-        public IActionResult Index()
+        public IActionResult Search(string searchString)
         {
-            return View();
+            var searchWrapper = new PaginationWithSearchService(_paginationService, searchString);
+
+            return PartialView("ProductsDisplayPartialView", searchWrapper);
         }
 
         public IActionResult Privacy()

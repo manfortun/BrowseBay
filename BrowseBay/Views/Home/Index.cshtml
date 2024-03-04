@@ -2,7 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="container text-center">
+    <div class="col-form-label mt-4 mb-4 d-flex col-md-5">
+        <input type="text" class="form-control" placeholder="Looking for something?" oninput="search()" id="searchBox"/>
+    </div>
     <div id="itemsList"></div>
 </div>
 @section Scripts{
@@ -41,6 +44,22 @@
                 },
                 error: function () {
                     console.log('Error occured.');
+                }
+            });
+        }
+
+        function search() {
+            var searchString = document.getElementById('searchBox').value;
+
+            $.ajax({
+                url: '/Home/Search',
+                type: 'GET',
+                data: { searchString },
+                success: function (result) {
+                    $('#itemsList').html(result);
+                },
+                error: function () {
+                    console.log('Something went wrong.');
                 }
             });
         }

@@ -29,6 +29,7 @@ namespace BrowseBay.Profiles
 
             // Product Categories
             CreateMap<ProductCategoryDto, ProductCategory>();
+            CreateMap<ProductCategory, ProductCategoryDto>();
 
             // Purchases
             CreateMap<PurchaseReadDto, Purchase>();

@@ -5,11 +5,11 @@ namespace BrowseBay.Service.Services;
 
 public class PaginationService : IPaginationService<ProductReadDto>
 {
-    private int _activePage = 1;
-    private int _noOfPages = 0;
-    private IEnumerable<ProductReadDto> _products;
+    internal int _activePage = 1;
+    internal int _noOfPages = 0;
+    internal IEnumerable<ProductReadDto> _products;
 
-    private readonly int _pageSize;
+    internal readonly int _pageSize;
 
     public int NoOfPages => _noOfPages;
     public int PageSize => _pageSize;
@@ -39,17 +39,16 @@ public class PaginationService : IPaginationService<ProductReadDto>
 
         _pageSize = pageSize;
         _products = default!;
-
     }
 
-    public IEnumerable<ProductReadDto> Get()
+    public virtual IEnumerable<ProductReadDto> Get()
     {
         return _products
             .Skip((_activePage - 1) * _pageSize)
             .Take(_pageSize);
     }
 
-    public void SetItems(IEnumerable<ProductReadDto> items)
+    public virtual void SetItems(IEnumerable<ProductReadDto> items)
     {
         _products = items;
         _noOfPages = (int)Math.Ceiling((double)items.Count() / _pageSize);
