@@ -7,8 +7,8 @@
     double totalNumOfItems = Model.GetNoOfItems();
 }
 
-<div class="mb-5">
-    <div class="container-fluid">
+<div class="mb-5 p-0">
+    <div class="container-fluid p-2">
         <h1>Check out your items.</h1>
     </div>
 </div>
@@ -67,7 +67,10 @@
                 </div>
             </div>
         </li>
-
+        
+        <div class="container d-flex p-0 mt-4 justify-content-md-end">
+            <button type="button" class="btn btn-warning flex-grow-1 flex-md-grow-0 text-md-end ps-5 pe-5" onclick="checkout()">CHECKOUT</button>
+        </div>
     </ul>
 </div>
 

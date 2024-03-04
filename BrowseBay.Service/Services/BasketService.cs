@@ -47,4 +47,9 @@ public class BasketService
 
         return purchase is not null ? purchase.Product.Price * purchase.Quantity : 0.00;
     }
+
+    public virtual void Clear()
+    {
+        _purchases.Clear();
+    }
 }

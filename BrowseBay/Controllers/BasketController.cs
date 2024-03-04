@@ -65,6 +65,21 @@ namespace BrowseBay.Controllers
         }
 
         [HttpGet]
+        public IActionResult Checkout()
+        {
+            _localBasket.Clear();
+
+            if (!SyncLocalBasketToDbBasket())
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return PartialView("NoContentPartialView");
+            }
+        }
+
+        [HttpGet]
         public IActionResult ChangeCount(int id, int count)
         {
             _localBasket.ChangePurchaseCount(id, count);

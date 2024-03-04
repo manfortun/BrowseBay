@@ -2,12 +2,12 @@
     ViewData["Title"] = "Cart";
 }
 
-<div class="container p-3 row d-flex flex-column-reverse flex-lg-row" id="parentContainer">
+<div class="container p-3 row d-flex flex-lg-row" id="parentContainer">
 </div>
 
 @section Scripts {
     @{
-            <partial name="_ValidationScriptsPartial" />
+                    <partial name="_ValidationScriptsPartial" />
     }
     <script>
 
@@ -55,6 +55,20 @@
                 },
                 error: function () {
                     console.log('Error in editing count.');
+                }
+            });
+        }
+
+        function checkout() {
+            $.ajax({
+                url: '/Basket/Checkout',
+                type: 'GET',
+                success: function (result) {
+                    toastr.success('Basket checked out.');
+                    $('#parentContainer').html(result);
+                },
+                error: function () {
+                    console.log('Error in checkout.');
                 }
             });
         }
