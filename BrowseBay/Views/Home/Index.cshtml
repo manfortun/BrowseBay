@@ -36,7 +36,7 @@
 
         function addtocart(id) {
             $.ajax({
-                url: '/Home/AddToCart',
+                url: '/Product/AddToCart',
                 type: 'GET',
                 data: { id: id },
                 success: function (result) {
@@ -60,6 +60,20 @@
                 },
                 error: function () {
                     console.log('Something went wrong.');
+                }
+            });
+        }
+
+        function productClicked(id) {
+            $.ajax({
+                url: '/Product/ViewProduct',
+                type: 'GET',
+                data: { id },
+                success: function (result) {
+                    console.log('Viewing product id = ' + id);
+                },
+                error: function () {
+                    console.log('Error in viewing product.');
                 }
             });
         }

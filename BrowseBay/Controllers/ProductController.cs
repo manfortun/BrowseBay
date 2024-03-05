@@ -6,36 +6,55 @@ using BrowseBay.Service.DTOs;
 using BrowseBay.Service.Services;
 using BrowseBay.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BrowseBay.Controllers
 {
-    [Authorize(Policy = nameof(Policy.SellerRights))]
     public class ProductController : Controller
     {
         private static CategoryStateManager _categoryStateManager;
         private readonly IUploadService<IFormFile> _uploadService;
         private readonly UnitOfWork _unitOfWork;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IMapper _mapper;
 
         public ProductController(
             AppDbContext context,
+            UserManager<IdentityUser> userManager,
             IUploadService<IFormFile> uploadService,
             IMapper mapper)
         {
             _unitOfWork = new UnitOfWork(context);
+            _userManager = userManager;
             _uploadService = uploadService;
             _mapper = mapper;
         }
 
+        [HttpPost]
+        [Authorize(Policy = nameof(Policy.BuyerRights))]
+        public IActionResult ViewProduct(int id)
+        {
+            Product? product = _unitOfWork.ProductManager.Find(id);
+
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            return View(_mapper.Map<ProductReadDto>(product));
+        }
+
         [HttpGet]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult Add(ProductCreateDto model)
         {
             // save product to database
@@ -63,6 +82,7 @@ namespace BrowseBay.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult Edit(int id)
         {
             Product? product = _unitOfWork.ProductManager.Find(id);
@@ -76,6 +96,7 @@ namespace BrowseBay.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult Edit(ProductDto model)
         {
             _unitOfWork.ProductManager.Update(_mapper.Map<Product>(model));
@@ -103,6 +124,7 @@ namespace BrowseBay.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult Delete(int id)
         {
             _unitOfWork.ProductManager.Delete(id);
@@ -113,6 +135,7 @@ namespace BrowseBay.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public async Task<IActionResult> SetImage(IFormFile file)
         {
             string finalizedFileName = _uploadService.GetAvailableFileName(file.FileName);
@@ -126,6 +149,7 @@ namespace BrowseBay.Controllers
         }
 
         [HttpGet, HttpPost]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult GetCategories(int id)
         {
             IEnumerable<Category> categories = _unitOfWork.CategoryManager.Get();
@@ -150,6 +174,44 @@ namespace BrowseBay.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = nameof(Policy.BuyerRights))]
+        public IActionResult AddToCart(int id)
+        {
+            string? userId = _userManager.GetUserId(User);
+
+            Product? product = _unitOfWork.ProductManager.Find(id);
+
+            if (product is null || string.IsNullOrEmpty(userId))
+            {
+                return NotFound();
+            }
+
+            Purchase? purchase = _unitOfWork.PurchaseManager.Get(c => c.OwnerId == userId && c.ProductId == id).FirstOrDefault();
+
+            if (purchase is null)
+            {
+                purchase = new Purchase
+                {
+                    OwnerId = userId,
+                    ProductId = product.Id,
+                    Quantity = 1,
+                };
+
+                _unitOfWork.PurchaseManager.Insert(purchase);
+            }
+            else
+            {
+                purchase.Quantity++;
+                _unitOfWork.PurchaseManager.Update(purchase);
+            }
+
+            _unitOfWork.Save();
+
+            return Ok(product.Name);
+        }
+
+        [HttpGet]
+        [Authorize(Policy = nameof(Policy.SellerRights))]
         public IActionResult ToggleCategory(int id)
         {
             _categoryStateManager.Toggle(id);

@@ -47,42 +47,6 @@ namespace BrowseBay.Controllers
             return PartialView("ProductsDisplayPartialView", _paginationService);
         }
 
-        [HttpGet]
-        public IActionResult AddToCart(int id)
-        {
-            string? userId = _userManager.GetUserId(User);
-
-            Product? product = _unitOfWork.ProductManager.Find(id);
-
-            if (product is null || string.IsNullOrEmpty(userId))
-            {
-                return NotFound();
-            }
-
-            Purchase? purchase = _unitOfWork.PurchaseManager.Get(c => c.OwnerId == userId && c.ProductId == id).FirstOrDefault();
-
-            if (purchase is null)
-            {
-                purchase = new Purchase
-                {
-                    OwnerId = userId,
-                    ProductId = product.Id,
-                    Quantity = 1,
-                };
-
-                _unitOfWork.PurchaseManager.Insert(purchase);
-            }
-            else
-            {
-                purchase.Quantity++;
-                _unitOfWork.PurchaseManager.Update(purchase);
-            }
-
-            _unitOfWork.Save();
-
-            return Ok(product.Name);
-        }
-
         public IActionResult Search(string searchString)
         {
             var searchWrapper = new PaginationWithSearchService(_paginationService, searchString);

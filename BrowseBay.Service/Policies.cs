@@ -9,4 +9,7 @@ public enum Policy
 
     [Roles([ Role.Admin ])]
     AdminRights,
+
+    [Roles([ Role.Buyer, Role.Seller, Role.Admin ])]
+    BuyerRights,
 }
