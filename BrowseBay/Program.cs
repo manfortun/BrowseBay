@@ -75,6 +75,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+using (var serviceScope = app.Services.CreateScope())
+{
+    AppDbContext? dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+
+    dbContext?.Database.Migrate();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
